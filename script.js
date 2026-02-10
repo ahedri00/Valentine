@@ -129,49 +129,60 @@ function displayCasette() {
 }
 
 // Function to display the cat-heart.gif
-    function displayCatHeart() {
-        var imageContainer = document.getElementById('image-container');
-        imageContainer.innerHTML = '';
+function displayCatHeart() {
+    var imageContainer = document.getElementById('image-container');
+    imageContainer.innerHTML = '';
 
-        // Center contents vertically and horizontally
-        imageContainer.style.display = 'flex';
-        imageContainer.style.flexDirection = 'column';
-        imageContainer.style.alignItems = 'center';
-        imageContainer.style.justifyContent = 'center';
-        imageContainer.style.gap = '10px';
-        imageContainer.style.minHeight = '60vh';
+    // Center contents vertically and horizontally
+    imageContainer.style.display = 'flex';
+    imageContainer.style.flexDirection = 'column';
+    imageContainer.style.alignItems = 'center';
+    imageContainer.style.justifyContent = 'center';
+    imageContainer.style.gap = '10px';
+    imageContainer.style.minHeight = '60vh';
 
-        var catHeartImage = new Image();
-        catHeartImage.src = 'cat-heart.gif';
-        catHeartImage.alt = 'Cat Heart';
-        catHeartImage.style.display = 'block';
-        catHeartImage.style.maxWidth = '90%';
-        catHeartImage.style.height = 'auto';
+    var catHeartImage = new Image();
+    catHeartImage.src = 'cat-heart.gif';
+    catHeartImage.alt = 'Cat Heart';
+    catHeartImage.style.display = 'block';
+    catHeartImage.style.maxWidth = '90%';
+    catHeartImage.style.height = 'auto';
 
-        catHeartImage.onload = function() {
-            imageContainer.appendChild(catHeartImage);
+    catHeartImage.onload = function() {
+        imageContainer.appendChild(catHeartImage);
 
-            var spcodeImage = new Image();
-            spcodeImage.src = 'spcode.png';
-            spcodeImage.alt = 'SP Code';
-            spcodeImage.style.display = 'block';
-            spcodeImage.style.marginTop = '10px';
-            spcodeImage.style.maxWidth = '90%';
-            spcodeImage.style.height = 'auto';
+        var spcodeImage = new Image();
+        spcodeImage.src = 'spcode.png';
+        spcodeImage.alt = 'SP Code';
+        spcodeImage.style.display = 'block';
+        spcodeImage.style.marginTop = '10px';
+        spcodeImage.style.maxWidth = '90%';
+        spcodeImage.style.height = 'auto';
 
-            if (spcodeImage.complete) {
-                imageContainer.appendChild(spcodeImage);
-            } else {
-                spcodeImage.onload = function() {
-                    imageContainer.appendChild(spcodeImage);
-                };
-            }
+        // Create anchor that wraps the spcode image and links to Spotify
+        var spotifyLink = document.createElement('a');
+        spotifyLink.href = 'https://open.spotify.com/playlist/5wWLS3pSlPAlz1jfWdaYyh?si=f_asVkgSQ6y4kP5POFxtNA';
+        spotifyLink.target = '_blank';
+        spotifyLink.rel = 'noopener noreferrer';
+        spotifyLink.appendChild(spcodeImage);
 
-            document.getElementById('options').style.display = 'none';
-        };
+        if (spcodeImage.complete) {
+            imageContainer.appendChild(spotifyLink);
+        } else {
+            spcodeImage.onload = function() {
+                imageContainer.appendChild(spotifyLink);
+            };
+            spcodeImage.onerror = function() {
+                // still append the link even if image fails, so link is accessible
+                imageContainer.appendChild(spotifyLink);
+            };
+        }
 
-        if (catHeartImage.complete) catHeartImage.onload();
-    }
+        document.getElementById('options').style.display = 'none';
+    };
+
+    if (catHeartImage.complete) catHeartImage.onload();
+}
 
 
 // Display the casette.png initially once DOM is ready
