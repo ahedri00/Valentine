@@ -61,6 +61,8 @@ function flashRainbowColors(callback) {
                 // ensure starting opacity and transition
                 el.style.transition = 'opacity 500ms ease';
                 el.style.opacity = '1';
+                el.style.pointerEvents = 'none'; // 🔑 ADD THIS
+
                 // trigger fade out
                 requestAnimationFrame(function() {
                     el.style.opacity = '0';
@@ -77,12 +79,15 @@ function flashRainbowColors(callback) {
 
                 // ensure container starts invisible so we can fade in
                 imageContainer.style.opacity = '0';
+                imageContainer.style.pointerEvents = 'auto'; // prevent interaction during fade-in
                 imageContainer.style.transition = 'opacity 500ms ease';
 
                 var imgs = Array.from(imageContainer.getElementsByTagName('img'));
                 if (imgs.length === 0) {
                     // no images: just fade container in
-                    requestAnimationFrame(function() { imageContainer.style.opacity = '1'; });
+                    requestAnimationFrame(function() { imageContainer.style.opacity = '1'; 
+                        imageContainer.style.pointerEvents = 'none';
+                    });
                     return;
                 }
 
@@ -165,6 +170,9 @@ function displayCatHeart() {
         spotifyLink.target = '_blank';
         spotifyLink.rel = 'noopener noreferrer';
         spotifyLink.appendChild(spcodeImage);
+        spotifyLink.style.pointerEvents = 'auto';
+        spotifyLink.style.cursor = 'pointer';
+
 
         if (spcodeImage.complete) {
             imageContainer.appendChild(spotifyLink);
